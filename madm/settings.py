@@ -1,6 +1,3 @@
-import os
-gettext = lambda s: s
-DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 """
 Django settings for madm project.
 
@@ -12,12 +9,15 @@ https://docs.djangoproject.com/en/1.9/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
+from django.utils.translation import ugettext_lazy as _
+gettext = lambda s: s
 
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+DATA_DIR = os.path.join(BASE_DIR, 'data')
+#DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -30,19 +30,72 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Enable this to additionally show the debug toolbar
+# INTERNAL_IPS = ['localhost', '127.0.0.1']
 
 # Application definition
 
-INSTALLED_APPS = [
-    'django.contrib.admin',
+INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+    'djangocms_admin_style',
+    'django.contrib.admin',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'cms',
+    'treebeard',
+    'menus',
+    'sekizai',
+    'reversion',
+    'djangocms_text_ckeditor',
+    #'djangocms_style',
+    'djangocms_column',
+    'filer',
+    'mptt',
+    'easy_thumbnails',
+    'aldryn_apphooks_config',
+    'aldryn_boilerplates',
+    #'aldryn_categories',
+    #'aldryn_people',
+    'aldryn_reversion',
+    'parler',
+    'sortedm2m',
+    'taggit',
+    'adminsortable2',
+    'aldryn_common',
+    'appconf',
+    'bootstrap3',
+    'extended_choices',
+    'standard_form',
+    'absolute',
+    'emailit',
+    'captcha',
+    'cmsplugin_filer_image',
+    'cmsplugin_filer_file',
+    'cmsplugin_filer_folder',
+    'cmsplugin_filer_teaser',
+    'cmsplugin_filer_utils',
+    'cmsplugin_filer_video',
+    'djangocms_googlemap',
+    'djangocms_inherit',
+    'djangocms_link',
+    'aldryn_bootstrap3',
+    #'aldryn_newsblog',
+    'aldryn_style',
+    #'aldryn_faq',
+    #'aldryn_events',
+    #'aldryn_jobs',
+    'aldryn_forms',
+    'aldryn_forms.contrib.email_notifications',
+    #'aldryn_locations',
+    'madm'
+)
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE_CLASSES = (
+    'cms.middleware.utils.ApphookReloadMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,19 +104,25 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+
+
+    'django.middleware.locale.LocaleMiddleware',
+    'cms.middleware.user.CurrentUserMiddleware',
+    'cms.middleware.page.CurrentPageMiddleware',
+    'cms.middleware.toolbar.ToolbarMiddleware',
+    'cms.middleware.language.LanguageCookieMiddleware',
+)
 
 ROOT_URLCONF = 'madm.urls'
 
-
-
+#WSGI_APPLICATION = 'madm.wsgi.application'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
 LANGUAGE_CODE = 'en'
 
-TIME_ZONE = 'CET'
+TIME_ZONE = 'Europe/Berlin' #CET
 
 USE_I18N = True
 
@@ -78,10 +137,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
-STATIC_ROOT = os.path.join(DATA_DIR, 'static')
+STATIC_ROOT = os.path.join(DATA_DIR, 'static_collected')
+#STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'madm', 'static'),
+    os.path.join(BASE_DIR, 'static'),
+    #os.path.join(BASE_DIR, 'madm', 'static'),
 )
 SITE_ID = 1
 
@@ -89,83 +150,63 @@ SITE_ID = 1
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'madm', 'templates'),],
+        'DIRS': [
+             os.path.join(BASE_DIR, 'templates'),
+             os.path.join(BASE_DIR, 'madm', 'templates'),
+             ],
+        'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.request',
-    'django.core.context_processors.media',
-    'django.core.context_processors.csrf',
-    'django.core.context_processors.tz',
-    'sekizai.context_processors.sekizai',
-    'django.core.context_processors.static',
-    'cms.context_processors.cms_settings'
+                'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.i18n',
+                'django.core.context_processors.debug',
+                'django.core.context_processors.request',
+                'django.core.context_processors.media',
+                'django.core.context_processors.csrf',
+                'django.core.context_processors.tz',
+                'sekizai.context_processors.sekizai',
+                'django.core.context_processors.static',
+                'cms.context_processors.cms_settings',
+                # aldryn-newsblog
+                'aldryn_boilerplates.context_processors.boilerplate',
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-    'django.template.loaders.eggs.Loader'
+                # aldryn-bpolerplates needs the following line to be placed exactly there
+                'aldryn_boilerplates.template_loaders.AppDirectoriesLoader',
+                'django.template.loaders.app_directories.Loader',
+                'django.template.loaders.eggs.Loader',
             ],
+            'debug': DEBUG,
         },
     },
 ]
 
-
-MIDDLEWARE_CLASSES = (
-    'cms.middleware.utils.ApphookReloadMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'cms.middleware.user.CurrentUserMiddleware',
-    'cms.middleware.page.CurrentPageMiddleware',
-    'cms.middleware.toolbar.ToolbarMiddleware',
-    'cms.middleware.language.LanguageCookieMiddleware'
-)
-
-INSTALLED_APPS = (
-    'djangocms_admin_style',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.admin',
-    'django.contrib.sites',
-    'django.contrib.sitemaps',
-    'django.contrib.staticfiles',
-    'django.contrib.messages',
-    'cms',
-    'menus',
-    'sekizai',
-    'treebeard',
-    'djangocms_text_ckeditor',
-    'djangocms_style',
-    'djangocms_column',
-    'filer',
-    'easy_thumbnails',
-    'cmsplugin_filer_image',
-    'cmsplugin_filer_file',
-    'cmsplugin_filer_folder',
-    'cmsplugin_filer_teaser',
-    'cmsplugin_filer_utils',
-    'cmsplugin_filer_video',
-    'djangocms_googlemap',
-    'djangocms_inherit',
-    'djangocms_link',
-    'reversion',
-    'madm'
-)
-
 LANGUAGES = (
     ## Customize this
-    ('en', gettext('en')),
-    ('de', gettext('de')),
+    ('en', _('English')),
+    ('de', _('Deutsch')),
 )
+
+PARLER_LANGUAGES = {
+    'default': {
+        'hide_untranslated': False,
+        'redirect_on_fallback': True,
+    },
+    1: [
+        {
+            'code': 'en',
+            'redirect_on_fallback': True,
+            'hide_untranslated': False,
+        },
+        {
+            'code': 'de',
+            'redirect_on_fallback': True,
+            'hide_untranslated': False,
+        },
+    ],
+}
 
 CMS_LANGUAGES = {
     ## Customize this
@@ -173,29 +214,34 @@ CMS_LANGUAGES = {
         {
             'code': 'en',
             'redirect_on_fallback': True,
-            'name': gettext('en'),
+            'name': _('English'),
             'hide_untranslated': False,
             'public': True,
         },
         {
             'code': 'de',
             'redirect_on_fallback': True,
-            'name': gettext('de'),
+            'name': _('Deusch'),
             'hide_untranslated': False,
             'public': True,
         },
     ],
     'default': {
+        'public': True,
         'hide_untranslated': False,
         'redirect_on_fallback': True,
-        'public': True,
     },
 }
 
 CMS_TEMPLATES = (
     ## Customize this
     ('page.html', 'Page'),
-    ('feature.html', 'Page with Feature')
+    ('feature.html', 'Page with Feature'),
+    ## from django-cms-explorer
+    ('fullwidth.html', 'Fullwidth'),
+    ('sidebar_left.html', 'Sidebar Left'),
+    ('sidebar_right.html', 'Sidebar Right'),
+    ('tpl_home.html', 'Home Template'),
 )
 
 CMS_PERMISSION = True
@@ -206,12 +252,12 @@ DATABASES = {
     'default': {
         'CONN_MAX_AGE': 0,
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': '127.0.0.1',
-        'NAME': 'madm',
-        'PASSWORD': 'db123',
-        'PORT': '',
-        'USER': 'madm'
-    }
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'NAME': os.getenv('DB_NAME', 'madm'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'db123'),
+        'PORT': os.getenv('DB_PORT', ''),
+        'USER': os.getenv('DB_USER', 'madm'),
+    },
 }
 
 MIGRATION_MODULES = {
@@ -222,9 +268,35 @@ MIGRATION_MODULES = {
     'cmsplugin_filer_video': 'cmsplugin_filer_video.migrations_django'
 }
 
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    # aldryn-bpolerplates needs the following line to be placed exactly there
+    'aldryn_boilerplates.staticfile_finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
     'easy_thumbnails.processors.autocrop',
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
-    'easy_thumbnails.processors.filters'
+    'easy_thumbnails.processors.filters',
+    'easy_thumbnails.processors.background',
 )
+
+ALDRYN_BOILERPLATE_NAME = 'bootstrap3'
+
+
+# aldryn-style required configurations
+# DOCS: https://github.com/aldryn/aldryn-style
+ALDRYN_STYLE_CLASS_NAMES = (
+    ('container', _('bootstrap container')),
+)
+
+
+
+#CKEDITOR_SETTINGS = {
+#    'stylesSet': 'default:/static/js/addons/ckeditor.wysiwyg.js',
+#    'contentsCss': ['/static/css/base.css'],
+#}
+
+# ALDRYN_LOCATIONS_GOOGLEMAPS_APIKEY =
