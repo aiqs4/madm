@@ -52,3 +52,7 @@ aldryn-style
 #aldryn-locations
 #aldryn-gallery
 #aldryn-categories
+
+djangorestframework
+djangorestframework-recursive
+https://github.com/inonit/djangocms-restapi/archive/master.zip

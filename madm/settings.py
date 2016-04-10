@@ -50,6 +50,9 @@ INSTALLED_APPS = (
     'menus',
     'sekizai',
     'reversion',
+    'rest_framework',
+    'rest_framework_recursive',
+    'djangocms_restapi',
     'djangocms_text_ckeditor',
     #'djangocms_style',
     'djangocms_column',
@@ -91,7 +94,8 @@ INSTALLED_APPS = (
     'aldryn_forms',
     'aldryn_forms.contrib.email_notifications',
     #'aldryn_locations',
-    'madm'
+    'madm',
+    'madm_restapi',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -102,6 +106,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+#    'djangocms_restapi.middleware.CurrentPageCookieMiddleWare',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
@@ -274,6 +279,15 @@ STATICFILES_FINDERS = [
     'aldryn_boilerplates.staticfile_finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+        #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
