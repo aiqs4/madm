@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'django_gulp',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

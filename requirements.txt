@@ -20,6 +20,7 @@ Pillow>=2.3
 django-sekizai>=0.7
 six
 
+django-gulp
 django-taggit
 django-parler
 #mptt
