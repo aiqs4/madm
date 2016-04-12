@@ -94,6 +94,7 @@ INSTALLED_APPS = (
     'aldryn_forms',
     'aldryn_forms.contrib.email_notifications',
     #'aldryn_locations',
+    'AdminLTE',
     'madm',
     'madm_restapi',
 )
@@ -175,6 +176,7 @@ TEMPLATES = [
                 'cms.context_processors.cms_settings',
                 # aldryn-newsblog
                 'aldryn_boilerplates.context_processors.boilerplate',
+                'AdminLTE.context_processors.processor',
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
@@ -242,6 +244,8 @@ CMS_TEMPLATES = (
     ## Customize this
     ('page.html', 'Page'),
     ('feature.html', 'Page with Feature'),
+    ## AdminLTE
+    ('AdminLTE/page.html', 'AdminLTE'),
     ## from django-cms-explorer
     ('fullwidth.html', 'Fullwidth'),
     ('sidebar_left.html', 'Sidebar Left'),
@@ -307,10 +311,11 @@ ALDRYN_STYLE_CLASS_NAMES = (
 )
 
 
-
 #CKEDITOR_SETTINGS = {
 #    'stylesSet': 'default:/static/js/addons/ckeditor.wysiwyg.js',
 #    'contentsCss': ['/static/css/base.css'],
 #}
 
 # ALDRYN_LOCATIONS_GOOGLEMAPS_APIKEY =
+
+import adminlte_settings

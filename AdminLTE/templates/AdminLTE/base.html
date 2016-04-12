@@ -1,0 +1,17 @@
+{% extends "base_root.html" %}
+{% load staticfiles sekizai_tags AdminLTE %}
+
+{% block extend_root %}
+
+{% addtoblock "css" %}
+<link rel="stylesheet" href="{% static 'ionicons.min.css' %}">
+<link rel="stylesheet" href="{% static 'AdminLTE/css/AdminLTE.min.css' %}">
+<link rel="stylesheet" href="{% static 'AdminLTE/css/skins/skin-blue.min.css' %}">
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
+<script src="{% static 'AdminLTE/js/app.js' %}"></script>
+{% endaddtoblock %}
+
+{% block content %}{% endblock content %}
+{% endblock extend_root %}
