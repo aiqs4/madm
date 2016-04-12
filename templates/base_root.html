@@ -9,7 +9,7 @@
         {% endblock title %}
     </title>
     {% block meta_tags %}
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
         <meta name="description" content="{% spaceless %}
             {% block meta_description %}
                 {% page_attribute meta_description %}
@@ -33,11 +33,10 @@
 {% cms_toolbar %}
 
 {% block extend_root %}{% endblock %}
-
-<script src="{% static 'js/libs/jquery.min.js' %}"></script>
-<script src="{% static 'js/libs/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/libs/class.min.js' %}"></script>
-<script src="{% static 'js/libs/outdatedBrowser.min.js' %}"></script>
+<script src="{% static 'js/libs/jquery.js' %}"></script>
+<script src="{% static 'js/libs/bootstrap.js' %}"></script>
+<script src="{% static 'js/libs/class.js' %}"></script>
+<script src="{% static 'js/libs/outdatedBrowser.js' %}"></script>
 <script src="{% static 'js/addons/cl.utils.js' %}"></script>
 <script src="{% static 'js/base.js' %}"></script>
 {% render_block "js" %}
