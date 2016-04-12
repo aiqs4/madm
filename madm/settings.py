@@ -96,6 +96,7 @@ INSTALLED_APPS = (
     #'aldryn_locations',
     'madm',
     'madm_restapi',
+    'pretty-html',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -116,6 +117,7 @@ MIDDLEWARE_CLASSES = (
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
     'cms.middleware.language.LanguageCookieMiddleware',
+    'pretty-html.middleware.BeautifulMiddleware',
 )
 
 ROOT_URLCONF = 'madm.urls'
