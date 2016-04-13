@@ -2,15 +2,11 @@
 {% load staticfiles sekizai_tags AdminLTE %}
 
 {% block title %}Page Title{% endblock title %}
-{% block extrahead %}
-    {% block html_head_more %}{% endblock html_head_more %}
-{% endblock %}
 
 {% block body_class %}skin-{{ ALTE.THEME.SKIN }} sidebar-mini{% endblock body_class %}
 
 {% block content %}
     <div class="wrapper">
-
         <header class="main-header">
         {% block page_header %}
             <a href="{{ ALTE.URL.PAGE_LOGO_HREF }}" class="logo">
@@ -84,10 +80,6 @@
         </footer>
 
         {% block page_control_sidebar %}{% include "AdminLTE/includes/page_control_sidebar.html" %}{% endblock %}
-
     </div><!-- ./wrapper -->
 {% endblock content %}
 
-{% block extrafoot %}
-    {% block html_body_more %}{% endblock html_body_more %}
-{% endblock extrafoot %}

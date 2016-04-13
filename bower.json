@@ -11,6 +11,9 @@
     "respond": ">=1.4.2",
     "select2-bootstrap": ">=1.3.0",
     "swfobject": "*",
-    "AdminLTE": "AdminLTE#^2.3.3"
+    "AdminLTE": "admin-lte#^2.3.3",
+    "jquery.sparkline": "^2.1.2",
+    "jquery.slimscroll": "^1.3.7",
+    "fastclick": "^1.0.6"
   }
 }
